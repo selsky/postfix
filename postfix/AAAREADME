@@ -85,9 +85,9 @@ not yet implement, and how well it works with other software.
 
 The HISTORY file gives a detailed log of changes to the software.
 
-Point your browser at html/index.html for Postfix documentation,
-for manual pages, and for the unavoidable Postfix FAQ. Expect to
-see updated versions on-line at http://www.postfix.org/
+Point your browser at html/index.html for Postfix documentation
+and for hyperlinked versions of Postfix manual pages.  Expect
+to see updated versions on-line at http://www.postfix.org/
 
 Point your MANPATH environment variable at the `man' directory (use
 an absolute path) for UNIX-style on-line manual pages.  These pages
@@ -97,10 +97,6 @@ navigate faster.
 The PORTING file discusses how to go about porting Postfix to other
 UNIX platforms.
 
-The TODO file lists things that still need to be done. If you want
-to set your teeth into one of those problems, drop me a note at
-wietse@porcupine.org to avoid duplication of effort.
-
 Documentation:
 
     README_FILES/	Instructions for specific Postfix features
@@ -109,7 +105,7 @@ Documentation:
 
 Example files:
 
-    conf/		sample configuration files
+    conf/		configuration files, run-time scripts
     examples/		chroot environments, virtual domains
 
 Library routines:
@@ -123,6 +119,7 @@ Command-line utilities:
     src/postalias/	Alias database management
     src/postcat/	List Postfix queue file
     src/postconf/	Configuration utility
+    src/postdrop/	Postfix mail submission program
     src/postfix/	Postfix administrative interface
     src/postkick/	Postfix IPC for shell scripts
     src/postlock/	Postfix locking for shell scripts
@@ -134,20 +131,24 @@ Command-line utilities:
 
 Postfix daemons:
 
+    src/anvil/		Connection count/rate limiter (not installed)
     src/bounce/		Bounce or defer mail
     src/cleanup/	Canonicalize and enqueue mail
     src/error/		Trivial error mailer
+    src/lmtp/		LMTP client
     src/local/		Local delivery
     src/master/		Postfix resident superserver
+    src/oqmgr/		Old queue manager
     src/pickup/		Local pickup
     src/pipe/		Pipe delivery
     src/qmgr/		Queue manager
+    src/qmqpd/		QMQPD server
     src/showq/		List Postfix queue status
-    src/spawn/		Run any command from a network socket
-    src/lmtp/		LMTP client
     src/smtp/		SMTP client
     src/smtpd/		SMTP server
+    src/spawn/		Run non-Postfix server
     src/trivial-rewrite/ Address rewriting and resolving
+    src/verify/		address verification service
     src/virtual/	virtual mailbox-only delivery agent
 
 Test programs:
@@ -159,9 +160,9 @@ Miscellaneous:
 
     auxiliary/		Auxiliary software etc.
     bin/		Postfix command executables
-    conf/		Sample configuration files
+    conf/		Configuration files, run-time scripts
     include/		Installed include files
     lib/		Installed object libraries
     libexec/		Postfix daemon executables
     mantools/		Manual page utilities
-    proto/		Manual pages for sample configuration files
+    proto/		Documentation source
