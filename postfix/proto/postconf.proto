@@ -11382,7 +11382,7 @@ the message delivery transport. </p>
 
 <p> This feature is available in Postfix 2.4 and later. </p>
 
-%PARAM default_delivery_rate_delay 0s
+%PARAM default_destination_rate_delay 0s
 
 <p> The default amount of delay that is inserted between individual
 deliveries to the same destination; with per-destination recipient
@@ -11400,16 +11400,16 @@ unit). </p>
 timer state does not survive "postfix reload" or "postfix stop".
 </p>
 
-<p> Use <i>transport</i>_delivery_rate_delay to specify a
+<p> Use <i>transport</i>_destination_rate_delay to specify a
 transport-specific override, where <i>transport</i> is the master.cf
 name of the message delivery transport.
 </p>
 
 <p> This feature is available in Postfix 2.5 and later. </p>
 
-%PARAM transport_delivery_rate_delay $default_delivery_rate_delay
+%PARAM transport_destination_rate_delay $default_destination_rate_delay
 
-<p> A transport-specific override for the default_recipient_refill_delay
+<p> A transport-specific override for the default_destination_rate_delay
 parameter value, where <i>transport</i> is the master.cf name of
 the message delivery transport. </p>
 
@@ -11465,6 +11465,12 @@ Postfix SMTP client avoids SASL authentication attempts with the
 same server, username and password, and instead bounces or defers
 mail as controlled with the smtp_sasl_auth_soft_bounce configuration
 parameter.  </p>
+
+<p> Use a per-destination delivery concurrency of 1 (for example,
+"smtp_destination_concurrency_limit = 1",
+"relay_destination_concurrency_limit = 1", etc.), otherwise multiple
+delivery agents may experience a login failure at the same time.
+</p>
 
 <p> The table must be accessed via the proxywrite service, i.e. the
 map name must start with "proxy:". The table should be stored under
