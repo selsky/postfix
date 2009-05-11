@@ -15039,7 +15039,7 @@ Apologies for any names omitted.
 	Cleanup: OpenLDAP now provides a sane solution for conflicts
 	with PAM ldap-over-tls. Victor Duchovni.  File: global/dict_ldap.c.
 
-20900304
+20090304
 
 	Cleanup: skip over suspended or throttled queues while
 	looking for delivery requests. File: *qmgr/qmgr_transport.c.
@@ -15080,3 +15080,143 @@ Apologies for any names omitted.
 	compatibility.  Adding such headers to remote mail can break
 	DKIM signatures that cover headers that are not present.
 	File: cleanup/cleanup_message.c.
+
+20090415
+
+	Workaround: to avoid unnecessary "fatal" delivery agent
+	exits, delivery agents retry getting a shared lock on a
+	queue file.  This is necessary since the queue manager's
+	behavior was changed years ago to refill the in-memory
+	recipient list before it was completely empty.  File:
+	global/deliver_request.c.
+
+	Documentation: updated STRESS_README.
+
+20090416
+
+	Workaround: some AWK implementations have a limit of 10
+	output files and lack a working close() function. It is too
+	much trouble to find out what systems have this limitation,
+	and where, if any, such systems store their XPG4-compatible
+	AWK program.  So instead we generate a stream of here
+	documents and let the shell split the stream into files.
+	File: postconf/extract.awk.
+
+	Documentation: clarification of certificate file usage.
+	Victor Duchovni.  Files: proto/postconf.proto,
+	proto/TLS_README.html.
+
+	Feature: pass a "TLS is active" flag to the server-side
+	SASL support.  Based on code by Timo Sirainen, except that
+	the implementation uses an extensible API so that it will
+	be less painful to add more attributes in future Postfix
+	versions.  Files: xsasl/xsasl.h, xsasl/xsasl_*server.c,
+	smtpd/smtpd_sasl_glue.c.
+
+20090417
+
+	Documentation: re-generate READMEs and manpages for updated
+	hyperlinks.
+
+	Documentation: missing hyperlinks and missing parameters
+	in manpages. File: mantools/postlink, mantools/check-postlink.
+
+20090418
+
+	Cleanup: use the extensible API to pass SMTP client address
+	information to the dovecot SASL plugin, and prepare for
+	passing server address information. Files: xsasl/xsasl.h,
+	xsasl/xsasl_dovecot_server.c, smtpd/smtpd_sasl_glue.c.
+
+	Same extensible API transformation for the SASL client-side
+	code to make future extensions less painful. Files:
+	xsasl/xsasl.h, xsasl/xsasl*client.c, smtp/smtp_sasl_glue.c.
+
+	More postlink fixes. File: mantools/postlink.
+
+20090419
+
+	Bugfix: don't re-enable SIGHUP if it is ignored in the
+	parent. This may cause random "Postfix integrity check
+	failed" errors at boot time (POSIX SIGHUP death), causing
+	Postfix not to start. We duplicate code from postdrop and
+	thus avoid past mistakes.  File: postsuper/postsuper.c.
+
+	Robustness: don't re-enable SIGTERM if it is ignored in the
+	parent. Files: postsuper/postsuper.c, postdrop/postdrop.c.
+
+20090422
+
+	Undo delivery agent change 20090415. The queue manager never
+	locks a queue file to read additional recipients into memory,
+	so if a delivery agent runs into a locked file, then something
+	is seriously wrong. File: global/deliver_request.c.
+
+20090424
+
+	Compatibility: the Postfix SMTP client no longer uses the
+	obsolete SSLv2 by default for opportunistic encryption.
+	This has nothing to do with security (we're willing to send
+	plaintext over an unauthenticated connection) but with the
+	loss of advanced options that give better performance.
+	Victor Duchovni. Files: proto/postconf.proto, global/mail_params.h.
+
+20090426
+
+	Feature: more accurate support for Milter macros {mail_addr}
+	and {rcpt_addr}, and new support for Milter macros {mail_host},
+	{mail_mailer}, {rcpt_host}, and {rcpt_mailer}.  Files:
+	milter/milter.[hc], smtpd/smtpd.[hc], smtpd/smtpd_milter.c,
+	smtpd/smtpd_resolve.c.
+
+	Feature: support to report rejected recipients to Milters
+	(SMFIP_RCPT_REJ). Postfix reports the event as decribed in
+	Sendmail 8.14.0 documentation: {rcpt_mailer} = "error",
+	{rcpt_host} = enhanced status code (e.g., "5.7.1"), and
+	{rcpt_addr} = reason to reject (e.g., "Relay access denied").
+	Files: milter/milter.[hc], milter/milter8.c, smtpd/smtpd.[hc],
+	smtpd/smtpd_milter.c.
+
+20090427
+
+	Feature: Milter support for replacing the envelope sender
+	and adding recipients (SMFIR_CHGFROM, SMFIR_ADDRCPT_PAR).
+	This support currently ignores ESMTP command parameters.
+	Files: milter/milter8.c, cleanup/cleanup_milter.c.
+
+20090428
+
+	Compatibility: to make all the new Milter features usable,
+	raise the default milter_protocol setting from 2 to 6.
+	This has been tested with a Sendmail 8.14 libmilter.
+	File: global/mail_params.h.
+
+	Bugfix: don't disable MIME parsing with smtp_header_checks,
+	smtp_mime_header_checks, smtp_nested_header_checks or with
+	smtp_body_checks. Bug reported by Victor. File: smtp/smtp_proto.c.
+
+	Code cleanups: respect VSTRING invariants by using VSTRING_RESET
+	and VSTRING_TERMINATE instead of directly groping the
+	underlying character buffer. Files: global/dsn_buf.c,
+	milter/milter8.c.
+
+20090507
+
+	main.cf:tls_random_source now defaults to /dev/arandom on
+	OpenBSD.  This device was introduced before Postfix development
+	began. Files: util/sys_defs.h, global/mail_params.h.
+
+20090510
+
+	Code cleanups: while emulating SMTP client requests for
+	Milter applications, use user@domain form addresses as
+	required by the SMTP protocol, instead of bare usernames.
+	This avoids hard to debug errors from some Milter applications.
+	Files: cleanup/cleanup_envelope.c, cleanup/cleanup_extracted.c,
+	cleanup/cleanup_addr.c.
+
+20090511
+
+	Code cleanups: don't clobber -o command-line arguments so
+	that Linux people can debug daemon command lines more easily.
+	Files: master/*server.c.

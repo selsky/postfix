@@ -307,8 +307,8 @@
 /*	Time limit for Postfix SMTP client write and read operations
 /*	during TLS startup and shutdown handshake procedures.
 /* .IP "\fBsmtp_tls_CAfile (empty)\fR"
-/*	The file with the certificate of the certification authority
-/*	(CA) that issued the Postfix SMTP client certificate.
+/*	A file containing CA certificates of root CAs trusted to sign
+/*	either remote SMTP server certificates or intermediate CA certificates.
 /* .IP "\fBsmtp_tls_CApath (empty)\fR"
 /*	Directory with PEM format certificate authority certificates
 /*	that the Postfix SMTP client uses to verify a remote SMTP server
@@ -390,9 +390,9 @@
 /*	certificate fingerprints.
 /* .PP
 /*	Available in Postfix version 2.6 and later:
-/* .IP "\fBsmtp_tls_protocols (empty)\fR"
-/*	List of TLS protocols that the Postfix SMTP client will exclude
-/*	or include with opportunistic TLS encryption.
+/* .IP "\fBsmtp_tls_protocols (!SSLv2)\fR"
+/*	List of TLS protocols that the Postfix SMTP client will exclude or
+/*	include with opportunistic TLS encryption.
 /* .IP "\fBsmtp_tls_ciphers (export)\fR"
 /*	The minimum TLS cipher grade that the Postfix SMTP client
 /*	will use with opportunistic TLS encryption.

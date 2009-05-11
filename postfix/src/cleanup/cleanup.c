@@ -80,7 +80,7 @@
 /* .PP
 /*	Available in Postfix version 2.6 and later:
 /* .IP "\fBalways_add_missing_headers (no)\fR"
-/*	Always add (Resent-) From:, To:, Date: or Message-ID headers
+/*	Always add (Resent-) From:, To:, Date: or Message-ID: headers
 /*	when not present.
 /* BUILT-IN CONTENT FILTERING CONTROLS
 /* .ad
@@ -124,9 +124,10 @@
 /* .IP "\fBnon_smtpd_milters (empty)\fR"
 /*	A list of Milter (mail filter) applications for new mail that
 /*	does not arrive via the Postfix \fBsmtpd\fR(8) server.
-/* .IP "\fBmilter_protocol (2)\fR"
+/* .IP "\fBmilter_protocol (6)\fR"
 /*	The mail filter protocol version and optional protocol extensions
-/*	for communication with a Milter (mail filter) application.
+/*	for communication with a Milter application; prior to Postfix 2.6
+/*	the default protocol is 2.
 /* .IP "\fBmilter_default_action (tempfail)\fR"
 /*	The default action when a Milter (mail filter) application is
 /*	unavailable or mis-configured.

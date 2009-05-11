@@ -160,7 +160,7 @@
 /*	executes a command such as:
 /* .sp
 /* .nf
-/*	    command -f$sender -- $recipient (\fIbad\fR)
+/*	    \fIWrong\fR: command -f$sender -- $recipient
 /* .fi
 /* .IP
 /*	the command will mis-parse the -f option value when the
@@ -168,7 +168,7 @@
 /*	specify \fB$sender\fR as an argument by itself:
 /* .sp
 /* .nf
-/*	    command -f $sender -- $recipient (\fIgood\fR)
+/*	    \fIRight\fR: command -f $sender -- $recipient
 /* .fi
 /* .IP
 /*	This feature is available as of Postfix 2.3.
@@ -393,7 +393,7 @@
 /*	The separator between user names and address extensions (user+foo).
 /* .IP "\fBsyslog_facility (mail)\fR"
 /*	The syslog facility of Postfix logging.
-/* .IP "\fBsyslog_name (postfix)\fR"
+/* .IP "\fBsyslog_name (see 'postconf -d' output)\fR"
 /*	The mail system name that is prepended to the process name in syslog
 /*	records, so that "smtpd" becomes, for example, "postfix/smtpd".
 /* SEE ALSO
