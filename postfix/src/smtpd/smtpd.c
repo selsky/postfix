@@ -92,8 +92,6 @@
 /*	Resolve an address that ends in the "@" null domain as if the
 /*	local hostname were specified, instead of rejecting the address as
 /*	invalid.
-/* .IP "\fBsmtpd_command_filter (empty)\fR"
-/*	A mechanism to transform commands from remote SMTP clients.
 /* .IP "\fBsmtpd_reject_unlisted_sender (no)\fR"
 /*	Request that the Postfix SMTP server rejects mail from unknown
 /*	sender addresses, even when no explicit reject_unlisted_sender
@@ -125,6 +123,10 @@
 /*	Available in Postfix version 2.6 and later:
 /* .IP "\fBtcp_windowsize (0)\fR"
 /*	An optional workaround for routers that break TCP window scaling.
+/* .PP
+/*	Available in Postfix version 2.7 and later:
+/* .IP "\fBsmtpd_command_filter (empty)\fR"
+/*	A mechanism to transform commands from remote SMTP clients.
 /* ADDRESS REWRITING CONTROLS
 /* .ad
 /* .fi
@@ -350,8 +352,8 @@
 /* .IP "\fBsmtpd_tls_loglevel (0)\fR"
 /*	Enable additional Postfix SMTP server logging of TLS activity.
 /* .IP "\fBsmtpd_tls_mandatory_ciphers (medium)\fR"
-/*	The minimum TLS cipher grade that the Postfix SMTP server
-/*	will use with mandatory TLS encryption.
+/*	The minimum TLS cipher grade that the Postfix SMTP server will
+/*	use with mandatory TLS encryption.
 /* .IP "\fBsmtpd_tls_mandatory_exclude_ciphers (empty)\fR"
 /*	Additional list of ciphers or cipher types to exclude from the
 /*	SMTP server cipher list at mandatory TLS security levels.
@@ -742,7 +744,7 @@
 /*	See the file ADDRESS_VERIFICATION_README for information
 /*	about how to configure and operate the Postfix sender/recipient
 /*	address verification service.
-/* .IP "\fBaddress_verify_poll_count (see 'postconf -d' output)\fR"
+/* .IP "\fBaddress_verify_poll_count (${stress?1}${stress:3})\fR"
 /*	How many times to query the \fBverify\fR(8) service for the completion
 /*	of an address verification request in progress.
 /* .IP "\fBaddress_verify_poll_delay (3s)\fR"
@@ -4150,8 +4152,8 @@ typedef struct SMTPD_CMD {
 #define SMTPD_CMD_FLAG_LAST	(1<<2)	/* last in PIPELINING command group */
 
 static SMTPD_CMD smtpd_cmd_table[] = {
-    SMTPD_CMD_HELO, helo_cmd, SMTPD_CMD_FLAG_LIMIT | SMTPD_CMD_FLAG_PRE_TLS,
-    SMTPD_CMD_EHLO, ehlo_cmd, SMTPD_CMD_FLAG_LIMIT | SMTPD_CMD_FLAG_PRE_TLS,
+    SMTPD_CMD_HELO, helo_cmd, SMTPD_CMD_FLAG_LIMIT | SMTPD_CMD_FLAG_PRE_TLS | SMTPD_CMD_FLAG_LAST,
+    SMTPD_CMD_EHLO, ehlo_cmd, SMTPD_CMD_FLAG_LIMIT | SMTPD_CMD_FLAG_PRE_TLS | SMTPD_CMD_FLAG_LAST,
 #ifdef USE_TLS
     SMTPD_CMD_STARTTLS, starttls_cmd, SMTPD_CMD_FLAG_PRE_TLS,
 #endif
