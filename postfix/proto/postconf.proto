@@ -4880,7 +4880,7 @@ Postfix version 2.5).  This feature is available with Postfix version
 <dd>Reject the request when the reversed client network address is
 listed with the A record "<i>d.d.d.d</i>" under <i>rbl_domain</i>
 (Postfix version 2.1 and later only).  Each "<i>d</i>" is a number,
-or a pattern inside "[]" that contains one or more comma-separated
+or a pattern inside "[]" that contains one or more ";"-separated
 numbers or number..number ranges (Postfix version 2.8 and later).
 If no "<i>=d.d.d.d</i>" is specified, reject the request when the
 reversed client network address is listed with any A record under
@@ -4896,7 +4896,7 @@ This feature is available in Postfix 2.0 and later.  </dd>
 <dd>Accept the request when the reversed client network address is
 listed with the A record "<i>d.d.d.d</i>" under <i>dnswl_domain</i>.
 Each "<i>d</i>" is a number, or a pattern inside "[]" that contains
-one or more comma-separated numbers or number..number ranges.
+one or more ";"-separated numbers or number..number ranges.
 If no "<i>=d.d.d.d</i>" is specified, accept the request when the
 reversed client network address is listed with any A record under
 <i>dnswl_domain</i>. <br> For safety, permit_dnswl_client is silently
@@ -4909,7 +4909,7 @@ is available in Postfix 2.8 and later.  </dd>
 <dd>Reject the request when the client hostname is listed with the
 A record "<i>d.d.d.d</i>" under <i>rbl_domain</i> (Postfix version
 2.1 and later only).  Each "<i>d</i>" is a number, or a pattern
-inside "[]" that contains one or more comma-separated numbers or
+inside "[]" that contains one or more ";"-separated numbers or
 number..number ranges (Postfix version 2.8 and later).  If no
 "<i>=d.d.d.d</i>" is specified, reject the request when the client
 hostname is listed with
@@ -4919,12 +4919,12 @@ This feature is available in Postfix 2.0 and later; with Postfix
 version 2.8 and later, reject_rhsbl_reverse_client will usually
 produce better results.  </dd>
 
-</dd> <dt><b><a name="permit_rhswl_client">permit_rhswl_client <i>rhswl_domain=d.d.d.d</i></a></b></dt>
+<dt><b><a name="permit_rhswl_client">permit_rhswl_client <i>rhswl_domain=d.d.d.d</i></a></b></dt>
 
 <dd>Accept the request when the client hostname is listed with the
 A record "<i>d.d.d.d</i>" under <i>rhswl_domain</i>.  Each "<i>d</i>"
 is a number, or a pattern inside "[]" that contains one or more
-comma-separated numbers or number..number ranges. If no
+";"-separated numbers or number..number ranges. If no
 "<i>=d.d.d.d</i>" is specified, accept the request when the client
 hostname is listed with any A record under <i>rhswl_domain</i>.
 <br> Caution: client name whitelisting is fragile, since the client
@@ -4941,7 +4941,7 @@ when whitelist lookup fails.  This feature is available in Postfix
 <dd>Reject the request when the unverified reverse client hostname
 is listed with the A record "<i>d.d.d.d</i>" under <i>rbl_domain</i>.
 Each "<i>d</i>" is a number, or a pattern inside "[]" that contains
-one or more comma-separated numbers or number..number ranges.
+one or more ";"-separated numbers or number..number ranges.
 If no "<i>=d.d.d.d</i>" is specified, reject the request when the
 unverified reverse client hostname is listed with any A record under
 <i>rbl_domain</i>. See the reject_rbl_client description above for
@@ -5403,7 +5403,7 @@ rejected requests (default: 504).</dd>
 <dd>Reject the request when the HELO or EHLO hostname hostname is
 listed with the A record "<i>d.d.d.d</i>" under <i>rbl_domain</i>
 (Postfix version 2.1 and later only).  Each "<i>d</i>" is a number,
-or a pattern inside "[]" that contains one or more comma-separated
+or a pattern inside "[]" that contains one or more ";"-separated
 numbers or number..number ranges (Postfix version 2.8 and later).
 If no "<i>=d.d.d.d</i>" is
 specified, reject the request when the HELO or EHLO hostname is
@@ -5702,7 +5702,7 @@ rejected requests (default: 504). </dd>
 <dd>Reject the request when the RCPT TO domain is listed with the
 A record "<i>d.d.d.d</i>" under <i>rbl_domain</i> (Postfix version
 2.1 and later only).  Each "<i>d</i>" is a number, or a pattern
-inside "[]" that contains one or more comma-separated numbers or
+inside "[]" that contains one or more ";"-separated numbers or
 number..number ranges (Postfix version 2.8 and later). If no
 "<i>=d.d.d.d</i>" is specified, reject
 the request when the RCPT TO domain is listed with
@@ -6080,7 +6080,7 @@ rejected requests (default: 504). </dd>
 <dd>Reject the request when the MAIL FROM domain is listed with
 the A record "<i>d.d.d.d</i>" under <i>rbl_domain</i> (Postfix
 version 2.1 and later only).  Each "<i>d</i>" is a number, or a
-pattern inside "[]" that contains one or more comma-separated numbers
+pattern inside "[]" that contains one or more ";"-separated numbers
 or number..number ranges (Postfix version 2.8 and later). If no
 "<i>=d.d.d.d</i>" is specified,
 reject the request when the MAIL FROM domain is
@@ -7866,7 +7866,7 @@ smtpd_sender_restrictions or smtpd_recipient_restrictions.
 multi-recipient mail. Acting on only one recipient would be misleading,
 because any decision will affect all recipients equally. Acting on
 all recipients would require a possibly very large amount of memory,
-and would also be misleading for the reasons mentioned before.  </p>
+and would also be misleading for the reasons mentioned before.
 
 </ul>
 
@@ -11739,14 +11739,14 @@ Diffie-Hellman (EECDH) key exchange. </p>
 <dl>
 
 <dt><b>none</b></dt> <dd> Don't use EECDH. Ciphers based on EECDH key
-exchange will be disabled. This is the default in official Postfix
-releases (mail_version = major.minor.patchlevel). </dd>
+exchange will be disabled. This is the default in Postfix versions
+2.6 and 2.7. </dd>
 
 <dt><b>strong</b></dt> <dd> Use EECDH with approximately 128
 bits of security at a reasonable computational cost. This is the
 current best-practice trade-off between security and computational
-efficiency. This is the default in Postfix snapshot releases
-(mail_version = major.minor-releasedate). </dd>
+efficiency. This is the default in Postfix version 2.8 and later.
+</dd>
 
 <dt><b>ultra</b></dt> <dd> Use EECDH with approximately 192 bits of
 security at computational cost that is approximately twice as high
@@ -12713,7 +12713,7 @@ comma or whitespace.  </p>
 non-error DNSBL reply.  Otherwise, postscreen(8) uses only DNSBL
 replies that match the filter. The filter has the form d.d.d.d,
 where each d is a number, or a pattern inside [] that contains one
-or more comma-separated numbers or number..number ranges.  </p>
+or more ";"-separated numbers or number..number ranges.  </p>
 
 <li> <p> When no "*weight" is specified, postscreen(8) increments
 the SMTP client's DNSBL score by 1.  Otherwise, the weight must be
@@ -12831,7 +12831,7 @@ IP address. </p>
 
 %PARAM postscreen_access_list permit_mynetworks
 
-<p> Permanent white/blacklist for remote SMTP client IP addresses;
+<p> Permanent white/blacklist for remote SMTP client IP addresses.
 postscreen(8) searches this list immediately after a remote SMTP
 client connects.  Specify a comma- or whitespace-separated list of
 commands (in upper or lower case) or lookup tables. The search stops
@@ -12861,10 +12861,12 @@ server process. </dd>
 the search. Subject the client to the action configured with the
 postscreen_blacklist_action configuration parameter. </dd>
 
-<dt> <b> dunno </b> </dt> <dd> When used inside a lookup table,
-return from the lookup table and evaluate the next command.  <br>
-When used outside a lookup table, terminate the search, and subject
-the client to the configured before/after 220 greeting tests. </dd>
+<dt> <b> dunno </b> </dt> <dd> All postscreen(8) access lists
+implicitly have this command at the end. <br> When <b> dunno </b>
+is executed inside a lookup table, return from the lookup table and
+evaluate the next command.  <br> When <b> dunno </b> is executed
+outside a lookup table, terminate the search, and subject the client
+to the configured before/after 220 greeting tests. </dd>
 
 </dl>
 
@@ -12900,8 +12902,8 @@ value to disable this feature.  </p>
 %PARAM postscreen_blacklist_action ignore
 
 <p> The action that postscreen(8) takes when an SMTP client is
-permanently blacklisted with the postscreen_blacklist_networks
-parameter.  Specify one of the following: </p>
+permanently blacklisted with the postscreen_access_list parameter.
+Specify one of the following: </p>
 
 <dl>
 
@@ -12954,8 +12956,8 @@ cases: </p>
 to translate these into domain names if necessary.  </p>
 
 <li> <p> Use "strict_rfc821_envelopes = no" to accept "RCPT TO:&lt;<i>User
-Name &lt;user@example.com&gt;&gt;</i>". Postfix will ignore the "User
-Name" part and deliver to the &lt;user@example.com&gt;</i> address.
+Name &lt;user@example.com&gt;&gt;</i>". Postfix will ignore the "<i>User
+Name</i>" part and deliver to the <i>&lt;user@example.com&gt;</i> address.
 </p>
 
 </ul>
@@ -13178,9 +13180,8 @@ and error commands.  </p>
 
 %PARAM postscreen_command_time_limit ${stress?10}${stress:300}s
 
-<p> The command "read" time limit for postscreen(8)'s built-in SMTP
-protocol engine. This bounds the time to receive an entire command.
-</p>
+<p> The time limit to read an entire command line with postscreen(8)'s
+built-in SMTP protocol engine. </p>
 
 <p> This feature is available in Postfix 2.8.  </p>
 
@@ -13571,26 +13572,46 @@ added after your Postfix source code was last updated, in that case
 you can only disable one of these via the hexadecimal syntax above. </p>
 
 <dl>
-<dt><b>MICROSOFT_SESS_ID_BUG</b>See SSL_CTX_set_options(3)</dt>
-<dt><b>NETSCAPE_CHALLENGE_BUG</b>See SSL_CTX_set_options(3)</dt>
-<dt><b>LEGACY_SERVER_CONNECT</b>See SSL_CTX_set_options(3)</dt>
-<dt><b>NETSCAPE_REUSE_CIPHER_CHANGE_BUG</b> also aliased as
-<b>CVE-2010-4180</b>. Postfix 2.8 disables this work-around by default
-with OpenSSL versions that may predate the fix. Fixed in OpenSSL 0.9.8q
-and OpenSSL 1.0.0c.</dt>
-<dt><b>SSLREF2_REUSE_CERT_TYPE_BUG</b>See SSL_CTX_set_options(3)</dt>
-<dt><b>MICROSOFT_BIG_SSLV3_BUFFER</b>See SSL_CTX_set_options(3)</dt>
-<dt><b>MSIE_SSLV2_RSA_PADDING</b> also aliased as
-<b>CVE-2005-2969</b>. Postfix 2.8 disables this work-around by default
-with OpenSSL versions that may predate the fix. Fixed in OpenSSL 0.9.7h
-and OpenSSL 0.9.8a.</dt>
-<dt><b>SSLEAY_080_CLIENT_DH_BUG</b>See SSL_CTX_set_options(3)</dt>
-<dt><b>TLS_D5_BUG</b>See SSL_CTX_set_options(3)</dt>
-<dt><b>TLS_BLOCK_PADDING_BUG</b>See SSL_CTX_set_options(3)</dt>
-<dt><b>TLS_ROLLBACK_BUG</b>See SSL_CTX_set_options(3). This is disabled
-in OpenSSL 0.9.7 and later. Nobody should still be using 0.9.6! </dt>
-<dt><b>DONT_INSERT_EMPTY_FRAGMENTS</b>See SSL_CTX_set_options(3)</dt>
-<dt><b>CRYPTOPRO_TLSEXT_BUG</b>New with GOST support in OpenSSL 1.0.0.</dt>
+
+<dt><b>MICROSOFT_SESS_ID_BUG</b></dt> <dd>See SSL_CTX_set_options(3)</dd>
+
+<dt><b>NETSCAPE_CHALLENGE_BUG</b></dt> <dd>See SSL_CTX_set_options(3)</dd>
+
+<dt><b>LEGACY_SERVER_CONNECT</b></dt> <dd>See SSL_CTX_set_options(3)</dd>
+
+<dt><b>NETSCAPE_REUSE_CIPHER_CHANGE_BUG</b></dt> <dd> also aliased
+as <b>CVE-2010-4180</b>. Postfix 2.8 disables this work-around by
+default with OpenSSL versions that may predate the fix. Fixed in
+OpenSSL 0.9.8q and OpenSSL 1.0.0c.</dd>
+
+<dt><b>SSLREF2_REUSE_CERT_TYPE_BUG</b></dt> <dd>See
+SSL_CTX_set_options(3)</dd>
+
+<dt><b>MICROSOFT_BIG_SSLV3_BUFFER</b></dt> <dd>See
+SSL_CTX_set_options(3)</dd>
+
+<dt><b>MSIE_SSLV2_RSA_PADDING</b></dt> <dd> also aliased as
+<b>CVE-2005-2969</b>. Postfix 2.8 disables this work-around by
+default with OpenSSL versions that may predate the fix. Fixed in
+OpenSSL 0.9.7h and OpenSSL 0.9.8a.</dd>
+
+<dt><b>SSLEAY_080_CLIENT_DH_BUG</b></dt> <dd>See
+SSL_CTX_set_options(3)</dd>
+
+<dt><b>TLS_D5_BUG</b></dt> <dd>See SSL_CTX_set_options(3)</dd>
+
+<dt><b>TLS_BLOCK_PADDING_BUG</b></dt> <dd>See SSL_CTX_set_options(3)</dd>
+
+<dt><b>TLS_ROLLBACK_BUG</b></dt> <dd>See SSL_CTX_set_options(3).
+This is disabled in OpenSSL 0.9.7 and later. Nobody should still
+be using 0.9.6! </dd>
+
+<dt><b>DONT_INSERT_EMPTY_FRAGMENTS</b></dt> <dd>See
+SSL_CTX_set_options(3)</dd>
+
+<dt><b>CRYPTOPRO_TLSEXT_BUG</b></dt> <dd>New with GOST support in
+OpenSSL 1.0.0.</dd>
+
 </dl>
 
 <p> This feature is available in Postfix 2.8 and later.  </p>
@@ -13908,7 +13929,7 @@ Postfix logfile records for a failed SMTP session. The text itself
 is not logged to the Postfix SMTP server's maillog file. </p>
 
 <p> Be sure to keep the text as short as possible. Long text may
-be truncated before it is logged in the Postfix SMTP server's maillog
+be truncated before it is logged to the remote SMTP client's maillog
 file, or before it is returned to the sender in a delivery status
 notification.  </p>
 
