@@ -1284,7 +1284,7 @@ extern char *var_smtpd_tls_proto;
 extern char *var_smtpd_tls_mand_proto;
 
 #define VAR_SMTPD_TLS_CIPH	"smtpd_tls_ciphers"
-#define DEF_SMTPD_TLS_CIPH	"export"
+#define DEF_SMTPD_TLS_CIPH	"medium"
 extern char *var_smtpd_tls_ciph;
 
 #define VAR_SMTPD_TLS_MAND_CIPH	"smtpd_tls_mandatory_ciphers"
@@ -1425,9 +1425,9 @@ extern char *var_smtp_tls_CAfile;
 extern char *var_smtp_tls_CApath;
 
 #define VAR_SMTP_TLS_CIPH	"smtp_tls_ciphers"
-#define DEF_SMTP_TLS_CIPH	"export"
+#define DEF_SMTP_TLS_CIPH	"medium"
 #define VAR_LMTP_TLS_CIPH	"lmtp_tls_ciphers"
-#define DEF_LMTP_TLS_CIPH	"export"
+#define DEF_LMTP_TLS_CIPH	"medium"
 extern char *var_smtp_tls_ciph;
 
 #define VAR_SMTP_TLS_MAND_CIPH	"smtp_tls_mandatory_ciphers"
@@ -3056,11 +3056,11 @@ extern char *var_tls_high_clist;
 extern char *var_tls_medium_clist;
 
 #define VAR_TLS_LOW_CLIST	"tls_low_cipherlist"
-#define DEF_TLS_LOW_CLIST	PREFER_aNULL "ALL:!EXPORT:+RC4:@STRENGTH"
+#define DEF_TLS_LOW_CLIST	PREFER_aNULL "ALL:!EXPORT:!LOW:+RC4:@STRENGTH"
 extern char *var_tls_low_clist;
 
 #define VAR_TLS_EXPORT_CLIST	"tls_export_cipherlist"
-#define DEF_TLS_EXPORT_CLIST	PREFER_aNULL "ALL:+RC4:@STRENGTH"
+#define DEF_TLS_EXPORT_CLIST	PREFER_aNULL "ALL:!EXPORT:!LOW:+RC4:@STRENGTH"
 extern char *var_tls_export_clist;
 
 #define VAR_TLS_NULL_CLIST	"tls_null_cipherlist"

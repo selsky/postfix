@@ -9490,8 +9490,10 @@ smtpd_tls_dh1024_param_file = /etc/postfix/dh2048.pem
 
 %PARAM smtpd_tls_dh512_param_file
 
-<p> File with DH parameters that the Postfix SMTP server should
-use with export-grade EDH ciphers. </p>
+<p> File with DH parameters that the Postfix SMTP server should use
+with export-grade EDH ciphers.  With Postfix &ge; 2.12 export cipher
+suites are by default disabled, and export DH parameters are never
+used.  </p>
 
 <p> See also the discussion under the smtpd_tls_dh1024_param_file
 configuration parameter.  </p>
@@ -11546,13 +11548,16 @@ one "medium" or "high" grade cipher. </p>
 This is the most appropriate setting for public MX hosts, and is always
 used with opportunistic TLS encryption. The underlying cipherlist
 is specified via the tls_export_cipherlist configuration parameter,
-which you are strongly encouraged to not change. </dd>
+which you are strongly encouraged to not change.  With Postfix &ge; 2.12,
+"EXPORT" and "LOW" grade ciphers are by default disabled, and "export" is
+equivalent to "medium".  </dd>
 
 <dt><b>low</b></dt>
-<dd> Enable "LOW" grade or stronger OpenSSL ciphers. The
-underlying cipherlist is specified via the tls_low_cipherlist
-configuration parameter, which you are strongly encouraged to
-not change. </dd>
+<dd> Enable "LOW" grade or stronger OpenSSL ciphers. The underlying
+cipherlist is specified via the tls_low_cipherlist configuration
+parameter, which you are strongly encouraged to not change.  With
+Postfix &ge; 2.12, "EXPORT" and "LOW" grade ciphers are by default
+disabled, and "low" is equivalent to "medium".  </dd>
 
 <dt><b>medium</b></dt>
 <dd> Enable "MEDIUM" grade or stronger OpenSSL ciphers. These use 128-bit
@@ -11649,18 +11654,21 @@ on a per-destination basis. </p>
 
 <dl>
 <dt><b>export</b></dt>
-<dd> Enable "EXPORT" grade or better OpenSSL
-ciphers.  This is the default for opportunistic encryption. It is
-not recommended for mandatory encryption unless you must enforce TLS
-with "crippled" peers. The underlying cipherlist is specified via the
-tls_export_cipherlist configuration parameter, which you are strongly
-encouraged to not change. </dd>
+<dd> Enable "EXPORT" grade or better OpenSSL ciphers.  This is the
+default for opportunistic encryption. It is not recommended for
+mandatory encryption unless you must enforce TLS with "crippled"
+peers. The underlying cipherlist is specified via the tls_export_cipherlist
+configuration parameter, which you are strongly encouraged to not
+change.  With Postfix &ge; 2.12, "EXPORT" and "LOW" grade ciphers
+are by default disabled, and "export" is equivalent to "medium".
+</dd>
 
 <dt><b>low</b></dt>
-<dd> Enable "LOW" grade or better OpenSSL ciphers.  This
-setting is only appropriate for internal mail servers.  The underlying
+<dd> Enable "LOW" grade or better OpenSSL ciphers.  The underlying
 cipherlist is specified via the tls_low_cipherlist configuration
-parameter, which you are strongly encouraged to not change. </dd>
+parameter, which you are strongly encouraged to not change.  With
+Postfix &ge; 2.12, "EXPORT" and "LOW" grade ciphers are by default
+disabled, and "low" is equivalent to "medium".  </dd>
 
 <dt><b>medium</b></dt>
 <dd> Enable "MEDIUM" grade or better OpenSSL ciphers.
@@ -11771,7 +11779,7 @@ is not needed with previous OpenSSL releases. </p>
 
 <p> This feature is available in Postfix 2.3 and later. </p>
 
-%PARAM tls_low_cipherlist ALL:!EXPORT:+RC4:@STRENGTH
+%PARAM tls_low_cipherlist see "postconf -d" output
 
 <p> The OpenSSL cipherlist for "LOW" or higher grade ciphers. This defines
 the meaning of the "low" setting in smtpd_tls_mandatory_ciphers,
@@ -11780,11 +11788,13 @@ strongly encouraged to not change this setting.  With OpenSSL 1.0.0 and
 later the cipherlist may start with an "aNULL:" prefix, which restores
 the 0.9.8-compatible ordering of the aNULL ciphers to the top of the
 list when they are enabled. This prefix is not needed with previous
-OpenSSL releases. </p>
+OpenSSL releases.  With Postfix &ge; 2.12, "EXPORT" and "LOW" grade
+ciphers are by default disabled, and "low" is equivalent to
+"medium".  </p>
 
 <p> This feature is available in Postfix 2.3 and later. </p>
 
-%PARAM tls_export_cipherlist ALL:+RC4:@STRENGTH
+%PARAM tls_export_cipherlist see "postconf -d" output
 
 <p> The OpenSSL cipherlist for "EXPORT" or higher grade ciphers. This
 defines the meaning of the "export" setting in smtpd_tls_mandatory_ciphers,
@@ -11795,7 +11805,9 @@ strongly encouraged to not change this setting. With OpenSSL 1.0.0 and
 later the cipherlist may start with an "aNULL:" prefix, which restores
 the 0.9.8-compatible ordering of the aNULL ciphers to the top of the
 list when they are enabled. This prefix is not needed with previous
-OpenSSL releases. </p>
+OpenSSL releases.  With Postfix &ge; 2.12, "EXPORT" and "LOW" grade
+ciphers are by default disabled, and "export" is equivalent to
+"medium".  </p>
 
 <p> This feature is available in Postfix 2.3 and later. </p>
 
@@ -12356,7 +12368,7 @@ parameter. See there for details. </p>
 
 <p> This feature is available in Postfix 2.6 and later. </p>
 
-%PARAM smtp_tls_ciphers export
+%PARAM smtp_tls_ciphers see "postconf -d" output
 
 <p> The minimum TLS cipher grade that the Postfix SMTP client
 will use with opportunistic TLS encryption. Cipher types listed in
@@ -12380,7 +12392,13 @@ smtp_tls_ciphers = export
 releases only the smtp_tls_mandatory_ciphers parameter is implemented,
 and opportunistic TLS always uses "export" or better (i.e. all) ciphers. </p>
 
-%PARAM smtpd_tls_ciphers export
+<p> Starting with Postfix 2.12, the default value changes from
+"export" to "medium".  Also the underlying definition of the "low"
+and "export" grades changes to disable export-grade and low-grade
+ciphers-suites.  As a result, the cipher grades "export" and "low"
+are now equivalent to "medium".  </p>
+
+%PARAM smtpd_tls_ciphers see "postconf -d" output
 
 <p> The minimum TLS cipher grade that the Postfix SMTP server
 will use with opportunistic TLS encryption. Cipher types listed in
@@ -12403,7 +12421,13 @@ smtpd_tls_ciphers = export
 releases only the smtpd_tls_mandatory_ciphers parameter is implemented,
 and opportunistic TLS always uses "export" or better (i.e. all) ciphers. </p>
 
-%PARAM lmtp_tls_ciphers export
+<p> Starting with Postfix 2.12, the default value changes from
+"export" to "medium".  Also the underlying definition of the "low"
+and "export" grades changes to disable export-grade and low-grade
+ciphers-suites.  As a result, the cipher grades "export" and "low"
+are now equivalent to "medium".  </p>
+
+%PARAM lmtp_tls_ciphers see "postconf -d" output
 
 <p> The LMTP-specific version of the smtp_tls_ciphers configuration
 parameter. See there for details. </p>
@@ -14729,7 +14753,9 @@ for further details. </p>
 
 <p> File with DH parameters that the Postfix tlsproxy(8) server
 should use with export-grade EDH ciphers. See smtpd_tls_dh512_param_file
-for further details.  </p>
+for further details.  With Postfix &ge; 2.12 export cipher suites
+are by default disabled, and export DH parameters are never used.
+</p>
 
 <p> This feature is available in Postfix 2.8 and later. </p>
 

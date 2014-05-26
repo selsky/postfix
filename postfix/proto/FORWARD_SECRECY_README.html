@@ -195,7 +195,8 @@ compiled in, but also supports explicitly-configured overrides.
 "export" ciphers.  To use a non-default prime, generate a 512-bit
 DH parameter file and set smtpd_tls_dh512_param_file to the filename
 (see the <a href="#quick-start">quick-start</a> section for details).
-</p>
+With Postfix &ge; 2.12 export cipher suites are by default disabled,
+and export EDH parameters are never used.  </p>
 
 <li> <p> The non-export EDH parameters are used for all other EDH
 cipher suites.  To use a non-default prime, generate a 1024-bit or
@@ -269,11 +270,11 @@ cipher suites that don't implement forward secrecy.  Administrators
 are strongly discouraged from changing the cipher list definitions.
 It is likely safe to set "smtp_tls_ciphers = medium" if you wish
 to disable the obsolete "export" and "low" grade ciphers even with
-opportunistic TLS.  Setting a minimum strength does not change the
-preference
-order.  Note that strengths higher than "medium" exclude Exchange
-2003 and likely other widely used MTAs, thus "high" grade ciphers
-should only be used on a case-by-case basis via the <a
+opportunistic TLS (this is the default starting with Postfix 2.12).
+Setting a minimum strength does not change the preference order.
+Note that strengths higher than "medium" exclude Exchange 2003 and
+likely other widely used MTAs, thus "high" grade ciphers should
+only be used on a case-by-case basis via the <a
 href="TLS_README.html#client_tls_policy">TLS policy</a> table. </p>
 
 <h2><a name="quick-start">Getting started, quick and dirty</a></h2>

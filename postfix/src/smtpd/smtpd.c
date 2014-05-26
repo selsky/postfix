@@ -402,9 +402,9 @@
 /*	The OpenSSL cipherlist for "HIGH" grade ciphers.
 /* .IP "\fBtls_medium_cipherlist (ALL:!EXPORT:!LOW:+RC4:@STRENGTH)\fR"
 /*	The OpenSSL cipherlist for "MEDIUM" or higher grade ciphers.
-/* .IP "\fBtls_low_cipherlist (ALL:!EXPORT:+RC4:@STRENGTH)\fR"
+/* .IP "\fBtls_low_cipherlist (see 'postconf -d' output)\fR"
 /*	The OpenSSL cipherlist for "LOW" or higher grade ciphers.
-/* .IP "\fBtls_export_cipherlist (ALL:+RC4:@STRENGTH)\fR"
+/* .IP "\fBtls_export_cipherlist (see 'postconf -d' output)\fR"
 /*	The OpenSSL cipherlist for "EXPORT" or higher grade ciphers.
 /* .IP "\fBtls_null_cipherlist (eNULL:!aNULL)\fR"
 /*	The OpenSSL cipherlist for "NULL" grade ciphers that provide
@@ -421,7 +421,7 @@
 /* .IP "\fBsmtpd_tls_protocols (empty)\fR"
 /*	List of TLS protocols that the Postfix SMTP server will exclude
 /*	or include with opportunistic TLS encryption.
-/* .IP "\fBsmtpd_tls_ciphers (export)\fR"
+/* .IP "\fBsmtpd_tls_ciphers (see 'postconf -d' output)\fR"
 /*	The minimum TLS cipher grade that the Postfix SMTP server
 /*	will use with opportunistic TLS encryption.
 /* .IP "\fBsmtpd_tls_eccert_file (empty)\fR"
