@@ -138,7 +138,7 @@ test:	$(TESTPROG)
 $(LIB):	$(OBJS)
 	$(AR) $(ARFL) $(LIB) $?
 	$(RANLIB) $(LIB)
-	$(SHLIB_LD) -o $(LIB) $(OBJS) $(SHLIB_SYSLIBS)
+	$(SHLIB_LD) $(SHLIB_RPATH) -o $(LIB) $(OBJS) $(SHLIB_SYSLIBS)
 
 $(LIB_DIR)/$(LIB): $(LIB)
 	cp $(LIB) $(LIB_DIR)
@@ -147,27 +147,29 @@ $(LIB_DIR)/$(LIB): $(LIB)
 plugin_map_so_make: $(PLUGIN_MAP_SO)
 
 $(LIB_PREFIX)ldap$(LIB_SUFFIX): dict_ldap.o
-	$(PLUGIN_LD) -o $@ dict_ldap.o $(AUXLIBS_LDAP)
+	$(PLUGIN_LD) $(SHLIB_RPATH) -o $@ dict_ldap.o $(AUXLIBS_LDAP)
 
 $(LIB_PREFIX)mysql$(LIB_SUFFIX): dict_mysql.o
-	$(PLUGIN_LD) -o $@ dict_mysql.o $(AUXLIBS_MYSQL)
+	$(PLUGIN_LD) $(SHLIB_RPATH) -o $@ dict_mysql.o $(AUXLIBS_MYSQL)
 
 $(LIB_PREFIX)pgsql$(LIB_SUFFIX): dict_pgsql.o
-	$(PLUGIN_LD) -o $@ dict_pgsql.o $(AUXLIBS_PGSQL)
+	$(PLUGIN_LD) $(SHLIB_RPATH) -o $@ dict_pgsql.o $(AUXLIBS_PGSQL)
 
 $(LIB_PREFIX)sqlite$(LIB_SUFFIX): dict_sqlite.o
-	$(PLUGIN_LD) -o $@ dict_sqlite.o $(AUXLIBS_SQLITE)
+	$(PLUGIN_LD) $(SHLIB_RPATH) -o $@ dict_sqlite.o $(AUXLIBS_SQLITE)
 
 $(LIB_PREFIX)cdb$(LIB_SUFFIX): mkmap_cdb.o $(LIB_DIR)/dict_cdb.o
-	$(PLUGIN_LD) -o $@ mkmap_cdb.o $(LIB_DIR)/dict_cdb.o $(AUXLIBS_CDB)
+	$(PLUGIN_LD) $(SHLIB_RPATH) -o $@ mkmap_cdb.o \
+	    $(LIB_DIR)/dict_cdb.o $(AUXLIBS_CDB)
 
 $(LIB_PREFIX)lmdb$(LIB_SUFFIX): mkmap_lmdb.o $(LIB_DIR)/dict_lmdb.o \
 	    $(LIB_DIR)/slmdb.o
-	$(PLUGIN_LD) -o $@ mkmap_lmdb.o $(LIB_DIR)/dict_lmdb.o \
+	$(PLUGIN_LD) $(SHLIB_RPATH) -o $@ mkmap_lmdb.o $(LIB_DIR)/dict_lmdb.o \
 	    $(LIB_DIR)/slmdb.o $(AUXLIBS_LMDB)
 
 $(LIB_PREFIX)sdbm$(LIB_SUFFIX): mkmap_sdbm.o $(LIB_DIR)/dict_sdbm.o
-	$(PLUGIN_LD) -o $@ mkmap_sdbm.o $(LIB_DIR)/dict_sdbm.o $(AUXLIBS_SDBM)
+	$(PLUGIN_LD) $(SHLIB_RPATH) -o $@ mkmap_sdbm.o \
+	    $(LIB_DIR)/dict_sdbm.o $(AUXLIBS_SDBM)
 
 update: $(LIB_DIR)/$(LIB) $(HDRS) $(PLUGIN_MAP_SO_UPDATE)
 	-for i in $(HDRS); \
