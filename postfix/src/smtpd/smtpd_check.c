@@ -1471,7 +1471,9 @@ static int reject_unknown_mailhost(SMTPD_STATE *state, const char *name,
     const char *myname = "reject_unknown_mailhost";
     int     dns_status;
     DNS_RR *dummy;
+#ifndef NO_EAI
     const char *aname;
+#endif
 
     if (msg_verbose)
 	msg_info("%s: %s", myname, name);
@@ -1927,11 +1929,13 @@ static int permit_mx_backup(SMTPD_STATE *state, const char *recipient,
     const char *myname = "permit_mx_backup";
     const RESOLVE_REPLY *reply;
     const char *domain;
-    const char *adomain;
     DNS_RR *mx_list;
     DNS_RR *middle;
     DNS_RR *rest;
     int     dns_status;
+#ifndef NO_EAI
+    const char *adomain;
+#endif
 
     if (msg_verbose)
 	msg_info("%s: %s", myname, recipient);
@@ -2911,7 +2915,6 @@ static int check_server_access(SMTPD_STATE *state, const char *table,
 {
     const char *myname = "check_server_access";
     const char *domain;
-    const char *adomain;
     int     dns_status;
     DNS_RR *server_list;
     DNS_RR *server;
@@ -2922,6 +2925,9 @@ static int check_server_access(SMTPD_STATE *state, const char *table,
     struct addrinfo *res;
     int     status;
     INET_PROTO_INFO *proto_info;
+#ifndef NO_EAI
+    const char *adomain;
+#endif
 
     /*
      * Sanity check.
@@ -3628,7 +3634,9 @@ static const SMTPD_RBL_STATE *find_dnsxl_domain(SMTPD_STATE *state,
     const char *reply_addr;
     const char *byte_codes;
     const char *suffix;
+#ifndef NO_EAI
     const char *adomain;
+#endif
 
     /*
      * Extract the domain, tack on the RBL domain name and query the DNS for

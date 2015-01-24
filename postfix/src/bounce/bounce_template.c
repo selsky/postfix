@@ -405,11 +405,13 @@ static const char *bounce_template_lookup(const char *key, int unused_mode,
     BOUNCE_TEMPLATE *tp = (BOUNCE_TEMPLATE *) context;
     const BOUNCE_TIME_PARAMETER *bp;
     const BOUNCE_TIME_DIVISOR *bd;
-    const BOUNCE_STR_PARAMETER *sp;
     static VSTRING *buf;
     int     result;
+#ifndef NO_EAI
+    const BOUNCE_STR_PARAMETER *sp;
     const char *asc_val;
     const char *utf8_val;
+#endif
 
     /*
      * Look for parameter names that can have a time unit suffix, and scale

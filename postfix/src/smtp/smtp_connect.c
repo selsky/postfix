@@ -649,7 +649,9 @@ static int smtp_reuse_session(SMTP_STATE *state, DNS_RR **addr_list,
     MAI_HOSTADDR_STR hostaddr;
     SMTP_SESSION *session;
     SMTP_ITERATOR *iter = state->iterator;
+#ifdef USE_TLS
     DSN_BUF *why = state->why;
+#endif
 
     /*
      * First, search the cache by request nexthop. We truncate the server
@@ -754,8 +756,10 @@ static void smtp_connect_inet(SMTP_STATE *state, const char *nexthop,
     char   *dest;
     char  **cpp;
     int     non_fallback_sites;
-    int     retry_plain = 0;
     DSN_BUF *why = state->why;
+#ifdef USE_TLS
+    int     retry_plain = 0;
+#endif
 
     /*
      * For sanity, require that at least one of INET or INET6 is enabled.
